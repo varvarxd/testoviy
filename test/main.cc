@@ -150,7 +150,7 @@ int main(int, char**)
 				fg->key_on();
 			}break;
 
-			case 0xa0 ... 0xaf:{ //Polyphonic Key Pressure (Aftertouch).
+			case 0xa0 ... 0xaf:{
 				unsigned knum, pvalue;
 				knum = track[trk][ptr++];
 				pvalue = track[trk][ptr++];
@@ -203,7 +203,7 @@ int main(int, char**)
 				std::cout << "End of exclusive" << std::endl;
 			}break;
 
-			case 0xf2:{ //Song Position Pointer.
+			case 0xf2:{
 				unsigned songpp, msb;
 				songpp = track[trk][ptr++];
 				msb = track[trk][ptr++];
@@ -211,14 +211,14 @@ int main(int, char**)
 						std::setw(2) << songpp << " MSB: " << msb << std::endl;
 			}break;
 
-			case 0xf3:{ //Song Select
+			case 0xf3:{
 				unsigned songselect;
 				songselect = track[trk][ptr++];
 				std::cout << "Номер песни: " <<
 						std::setw(2) << songselect << std::endl;
 			}break;
 
-			case 0xf6:{ //Tune Request
+			case 0xf6:{
 				std::cout << "Tune Request." << std::endl;
 			}break;
 
