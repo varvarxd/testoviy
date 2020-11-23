@@ -89,7 +89,7 @@ int main(int, char**)
 	mthd.division = ntohs(mthd.division);
 
 	std::cout << "MIDI fail, format: " <<  mthd.format <<
-			", дорожек: " << mthd.ntrks <<
+			", tracks: " << mthd.ntrks <<
 			", division: " << mthd.division << std::endl;
 
 	std::vector<std::vector<uint8_t>> track;
@@ -98,7 +98,7 @@ int main(int, char**)
 		MTrkHeader mtrk;
 		file.read(reinterpret_cast<char*>(&mtrk), sizeof(mtrk));
 		mtrk.length = ntohl(mtrk.length);
-		std::cout << "Дорожка " << i << " длина: " << mtrk.length << std::endl;
+		std::cout << "Track " << i << " dlina: " << mtrk.length << std::endl;
 		track[i].resize(mtrk.length);
 		file.read(reinterpret_cast<char*>(&track[i][0]), mtrk.length);
 	}
@@ -106,7 +106,7 @@ int main(int, char**)
 	unsigned trk = 0;
 	unsigned ptr = 0;
 
-	std::cout << "------> Текущая дорожка: " << trk << std::endl;
+	std::cout << "------> Track kotorui igraet: " << trk << std::endl;
 
 	unsigned event_type = 0;
 
@@ -214,7 +214,7 @@ int main(int, char**)
 			case 0xf3:{
 				unsigned songselect;
 				songselect = track[trk][ptr++];
-				std::cout << "Номер песни: " <<
+				std::cout << "Nomer Track: " <<
 						std::setw(2) << songselect << std::endl;
 			}break;
 
@@ -272,7 +272,7 @@ int main(int, char**)
 						std::string name;
 						while (meta_len --)
 							name += char(track[trk][ptr++]);
-						std::cout << "Имя дорожки: " << name << std::endl;
+						std::cout << "Name Track: " << name << std::endl;
 					}break;
 
 					case 0x04:{
@@ -314,7 +314,7 @@ int main(int, char**)
 						unsigned temp2 = track[trk][ptr++];
 						unsigned temp3 = track[trk][ptr++];
 						int result = (((temp1 << 8) |temp2) << 8 | temp3);
-						std::cout << "Set Tempo: " << result << " микросекунд" << std::endl;
+						std::cout << "Set Tempo: " << result << " microseconds" << std::endl;
 					}break;
 
 					case 0x54:{
@@ -334,9 +334,9 @@ int main(int, char**)
 	 					unsigned dd = track[trk][ptr++];
 	 					unsigned num_tick = track[trk][ptr++];
 	 					unsigned num_part = track[trk][ptr++];
-	 					std::cout << "Размер " << nn << "/" << dd
-	 							<< ", колличество тиков в ударе метронома " << num_tick
-	 							<< ", колличество 32-х долей в " << num_tick << " тиках " << num_part << std::endl;
+	 					std::cout << "Size " << nn << "/" << dd
+	 							<< ", kolvo tikov v metronome " << num_tick
+	 							<< ", kolvo 32-х dolei v  " << num_tick << " tikah " << num_part << std::endl;
 
 					}break;
 
@@ -347,23 +347,23 @@ int main(int, char**)
 					}break;
 
 					case 0x2f:
-						std::cout << "---- Конец Дорожки ----" << std::endl;
+						std::cout << "_________THE END__________" << std::endl;
 						return 0;
 					break;
 
 					case 0x7f:{
-						std::cout << "событие 0x7f" << std::endl;
+						std::cout << "Sobitie 0x7f" << std::endl;
 					}break;
 
 					default:
-						std::cout << "Незамеченное мета событие " <<
+						std::cout << "Nezamechenoe meta sobitie " <<
 						std::setw(2) << meta_type << std::endl;
 						return 1;
 				}
 			}break;
 
 			default:
-				std::cout << "<!> Неизвестное событие: " <<
+				std::cout << "<!> Neizvestnoe sobitie: " <<
 				std::setw(2) << event_type << " <!>" <<
 				std::endl;
 				return 1;
